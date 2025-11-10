@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Devgraph API
-  description: Knowledge graph and entity management API
+  description: Ontology engine and entity management API
   version: 1.0.0-beta.1
 paths:
   /api/v1/entities/definitions:

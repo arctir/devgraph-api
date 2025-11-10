@@ -43,4 +43,4 @@ This repository is automatically updated when the API specification changes in t
 
 Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
 API Version: 1.0.0-beta.1
-Commit: b201f3f22c57da475110cbda6d5bbe79a54afd60
+Commit: 15d7277e593ae9d856c9930c946ddb66dd4c4716
