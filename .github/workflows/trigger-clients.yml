@@ -1,0 +1,71 @@
+name: Trigger Client Regeneration
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'v1/spec.yaml'
+      - 'API_VERSION'
+  workflow_dispatch:
+    inputs:
+      spec_version:
+        description: 'API Version to trigger for'
+        required: false
+        type: string
+
+jobs:
+  trigger-clients:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout devgraph-api repo
+        uses: actions/checkout@v4
+
+      - name: Read API version
+        id: api-version
+        run: |
+          if [ -f "API_VERSION" ]; then
+            API_VERSION=$(cat API_VERSION)
+          else
+            API_VERSION="${{ inputs.spec_version }}"
+          fi
+          echo "version=${API_VERSION}" >> $GITHUB_OUTPUT
+          echo "API Version: ${API_VERSION}"
+
+      - name: Trigger downstream client builds
+        run: |
+          echo "Triggering downstream client builds for API v${{ steps.api-version.outputs.version }}..."
+
+          # Trigger TypeScript client build
+          gh workflow run regenerate-client.yml \
+            --repo arctir/devgraph-typescript-client \
+            --field spec_version=${{ steps.api-version.outputs.version }} \
+            --field spec_commit=${{ github.sha }} || echo "⚠️  Failed to trigger TypeScript client build"
+
+          # Trigger Python client build
+          gh workflow run regenerate-client.yml \
+            --repo arctir/devgraph-python-client \
+            --field spec_version=${{ steps.api-version.outputs.version }} \
+            --field spec_commit=${{ github.sha }} || echo "⚠️  Failed to trigger Python client build"
+
+          # Trigger Go client build
+          gh workflow run regenerate-client.yml \
+            --repo arctir/go-devgraph \
+            --field spec_version=${{ steps.api-version.outputs.version }} \
+            --field spec_commit=${{ github.sha }} || echo "⚠️  Failed to trigger Go client build"
+
+          echo "✓ Downstream builds triggered"
+        env:
+          GH_TOKEN: ${{ secrets.ARCTIR_GH_ACTIONS_TOKEN }}
+
+      - name: Create summary
+        run: |
+          echo "## 🔄 Client Regeneration Triggered" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **API Version**: \`${{ steps.api-version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Clients Triggered" >> $GITHUB_STEP_SUMMARY
+          echo "- [TypeScript Client](https://github.com/arctir/devgraph-typescript-client/actions)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Python Client](https://github.com/arctir/devgraph-python-client/actions)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Go Client](https://github.com/arctir/go-devgraph/actions)" >> $GITHUB_STEP_SUMMARY
