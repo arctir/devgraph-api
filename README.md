@@ -4,11 +4,27 @@ OpenAPI specification for the Devgraph API.
 
 ## Version
 
-Current API version: `1.0.0-beta.1`
+Current API version: `1.0.0-beta.3`
 
 ## Specification
 
 - **User API**: `v1/spec.yaml` - Main Devgraph API for developers
+
+## Usage
+
+### View in Swagger UI
+
+```bash
+docker run -p 8080:8080 -e SWAGGER_JSON=/specs/v1/spec.yaml -v $(pwd)/v1:/specs swaggerapi/swagger-ui
+```
+
+### Generate Client Libraries
+
+```bash
+# Using OpenAPI Generator
+openapi-generator generate -i v1/spec.yaml -g python -o ./devgraph-python-client
+openapi-generator generate -i v1/spec.yaml -g typescript-fetch -o ./devgraph-typescript-client
+```
 
 ## Versioning
 
@@ -27,6 +43,6 @@ Apache 2.0 - See [LICENSE](LICENSE) file for details.
 
 ---
 
-Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
-API Version: 1.0.0-beta.1
-Commit: 15d7277e593ae9d856c9930c946ddb66dd4c4716
+Last updated: 2025-11-11 02:08:11 UTC
+API Version: 1.0.0-beta.3
+Commit: abebe0ab9b3b5b7c05664584df72de08c9e1c3d2
