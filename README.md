@@ -4,7 +4,7 @@ OpenAPI specification for the Devgraph API.
 
 ## Version
 
-Current API version: `1.0.0-beta.10`
+Current API version: `1.0.0-beta.11`
 
 ## Specification
 
@@ -43,6 +43,6 @@ Apache 2.0 - See [LICENSE](LICENSE) file for details.
 
 ---
 
-Last updated: 2025-11-11 04:23:29 UTC
-API Version: 1.0.0-beta.10
-Commit: 2cd732e52fdd61cf788c9df3e715d6d2b3320147
+Last updated: 2025-11-11 04:28:28 UTC
+API Version: 1.0.0-beta.11
+Commit: 4356ea469b09409e756577b7c2fba347377ab50b
