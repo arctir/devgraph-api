@@ -20,7 +20,10 @@ This repository is automatically updated when the API specification changes in t
 ## Links
 
 - [API Documentation](https://docs.devgraph.ai/api)
-- [API Versioning Guide](https://github.com/arctir/devgraph/blob/main/docs/API_VERSIONING.md)
+
+## License
+
+Apache 2.0 - See [LICENSE](LICENSE) file for details.
 
 ---
 
